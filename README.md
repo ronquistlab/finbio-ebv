@@ -1,2 +1,4 @@
 # finbio-ebv
-FinBio WP1 
+## Introduction
+This repository contains code to run analyses aimed at evaluating the use of large scale eDNA inventories in conjunction with earth observation (EO), to predict essential biodiversity variables (EBV's) for use in biodiversity impact reporting. The project aims to asses whether summary measures of biodiversity can be accurately predicted using common EO products and machine learning algorithms. The code derives several EBV's that summarise key components of invertebrate diversity using data from the Insect Biome Atlas project, collected across Sweden and Madagascar. Gradient boosted regression tree's (XGboost), are used to learn associations between these summary measures and environmental features derived from the ESA's copernicus landcover data, and ERA5 climate data. Cross-validation is performed to assess predictive performance within sites and at new sites. 
+
