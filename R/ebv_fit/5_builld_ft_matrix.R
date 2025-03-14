@@ -277,5 +277,5 @@ lapply(full_M_mg, colnames)
 # save --------------------------------------------------------------------------------------
 
 saveRDS(list(sweden=full_M_se, madagascar=full_M_mg),"data/tidydata/full_M.rds")
-saveRDS(list(sweden=full_M_se, madagascar=full_M_mg),"R/dardel/full_M.rds")
+saveRDS(list(sweden=full_M_se, madagascar=full_M_mg),"R/ebv_fit/7_dardel/full_M.rds")
 

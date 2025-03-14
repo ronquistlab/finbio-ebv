@@ -4,11 +4,11 @@ library(glue)
 # data ----------------------------------------------------------------------------------------
 
 
-full_M <- readRDS("R/dardel/full_M.rds")
+full_M <- readRDS("R/ebv_fit/7_dardel/full_M.rds")
 model_script <- read_lines("R/model_script.txt") |> paste(collapse = "\n")
 
-loc_list    <- names(full_M)
-target_list <- names(full_M[[1]])
+loc_list    <- names(full_M)      # Countries
+target_list <- names(full_M[[1]]) # EBVs
 
 
 # Build each model fitting script -------------------------------------------------------------
@@ -38,7 +38,7 @@ for(i in loc_list){
         
       ")
   # Save script
-writeLines(mScript , glue("R/dardel/fit_model_{loc_var}_{tar_var}.R"))
+writeLines(mScript , glue("R/ebv_fit/7_dardel/fit_model_{loc_var}_{tar_var}.R"))
   }
 }
 
@@ -66,7 +66,7 @@ module load PDC/23.12
 module load R/4.4.0
 Rscript fit_model_{loc_var}_{tar_var}.R > logfiles/out_{loc_var}_{tar_var}.out") 
     
-   writeLines(shScript , glue("R/dardel/submit_model_{loc_var}_{tar_var}.sh"))
+   writeLines(shScript , glue("R/ebv_fit/7_dardel/submit_model_{loc_var}_{tar_var}.sh"))
    
   }
   }
