@@ -3,7 +3,7 @@
 This repository contains code to run analyses aimed at evaluating the use of large scale eDNA inventories in conjunction with earth observation (EO), to predict essential biodiversity variables (EBV's) for use in biodiversity impact reporting. The project aims to asses whether summary measures of biodiversity can be accurately predicted using common EO products and machine learning algorithms. The code derives several EBV's that summarise key components of invertebrate diversity using data from the Insect Biome Atlas project, collected across Sweden and Madagascar. Gradient boosted regression tree's (XGboost), are used to learn associations between these summary measures and environmental features derived from the ESA's copernicus landcover data, and ERA5 climate data. Cross-validation is performed to assess predictive performance within sites and at new sites. 
 
 ## Data
-This repository contains only the tidied data files, raw eDNA and environmental data should be downloaded from 10.6084/m9.figshare.28590113, and copied into the 'data/' directory.
+This repository contains only the tidied data files, raw eDNA and environmental data should be downloaded from [10.6084/m9.figshare.28590113](https://figshare.com/articles/dataset/Raw_data_for_FinBio_EBV_project/28590113), and copied into the 'data/' directory.
 The folder contains three subfolders:
 #### raw_envdata
 Containing raw land cover (copernicus) and era5 measurements. 
