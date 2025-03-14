@@ -21,10 +21,16 @@ This folder contains R code to tidy the environmental and eDNA data, fit models,
 Contains files to retrieve predictive features from raw environmental data.
 
 #### ebv_fit
-Contains files to derive EBVs, generate model fitting scripts, and plot results of model fitting
+Contains files to derive EBVs from eDNA and trait data, generate model fitting scripts, and plot results of model fitting:
 
-#### Dardel 
-Contains files to fit models on the dardel cluster
+1_tidy_IBA_data.R - A script to do some initial tidying to the IBA community and meta data. 
+2_derive_community_EBVs.R - A script to derive community level EBVs (Species richness and LCBD).
+3_derive_functional_EBVs.R - A script to derive functional eveness and dispersion. 
+4_derive_genetic_EBVs.R - A script to derive genetic and phylogenetic diversity. 
+5_build_ft_matrix.R - A script to build matrices of features and targets for each EBV. 
+6_generate_dardel_scripts.R - A script to programatically build model fitting scripts and shell scripts for jobs on the HPC cluster.
+7_dardel - A subfolder that contains data, .sh files and .R files to fit models.
+8_plot_loss.R - A script to plot results of cross-validation exercise. 
 
 #### Misc
 Miscellaneous files useful for the FinBio project
