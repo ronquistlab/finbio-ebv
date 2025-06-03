@@ -47,4 +47,19 @@ Miscellaneous files useful for the FinBio project
 Results files from model fits and predictions
 
 ## Plots
-Plotted figures.
+Plotted figures
+
+# ------------------------------------ #
+## Dardel setup
+These are some basic instructions to set up this code to run on dardel, this should be relatively simple to do, but just thought I'd document the steps I took to get things running smoothly. 
+
+1) Submit a job to install R packages - these would not install in an interactive session so I installed via a batch job. An R script with the following should install everything required:
+
+´´´
+install.packages("tidyverse",repos='http://cran.us.r-project.org')
+install.packages("xgboost",repos='http://cran.us.r-project.org')
+´´´
+
+2) 
+
+
