@@ -55,11 +55,19 @@ These are some basic instructions to set up this code to run on dardel, this sho
 
 1) Submit a job to install R packages - these would not install in an interactive session so I installed via a batch job. An R script with the following should install everything required:
 
-´´´
+
 install.packages("tidyverse",repos='http://cran.us.r-project.org')
 install.packages("xgboost",repos='http://cran.us.r-project.org')
-´´´
 
-2) 
+
+2) Create an directory with two subfolders
+   -'results'
+   -'logfiles'
+The model fitting code will store all results in the 'results' subfolder, and all output from dardel in the logfiles subfolder.
+My directory is /cfs/klemming/home/r/rgdsell/Private/FinBio, and I sftp the required data, model and .sh files into this folder and everything should run from there.
+
+
+
+
 
 
