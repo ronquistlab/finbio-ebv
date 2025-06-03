@@ -14,6 +14,8 @@ Containing the tidied environmental data and derived EBV's
 
 Also included is a phylogenetic tree (species_level_tree.nwk), which is used for the derivation of a measure of phylogenetic diversity. 
 
+'full_M.rds' is a list containing each EBV alongside the environmental features required for model fitting - this is the only data file required to fit the models, the other components are provided for clarity. 
+
 ## R
 This folder contains R code to tidy the environmental and eDNA data, fit models, and plot preliminary results. Files within a folder are prefixed with a number to indicate which order they should be run in, if there is no prefix, files can be run in any order. 
 
@@ -63,8 +65,13 @@ install.packages("xgboost",repos='http://cran.us.r-project.org')
 2) Create an directory with two subfolders
    -'results'
    -'logfiles'
-The model fitting code will store all results in the 'results' subfolder, and all output from dardel in the logfiles subfolder.
-My directory is /cfs/klemming/home/r/rgdsell/Private/FinBio, and I sftp the required data, model and .sh files into this folder and everything should run from there.
+The model fitting code will store all results in the 'results' subfolder, and all output from dardel in the logfiles subfolder, my directory is /cfs/klemming/home/r/rgdsell/Private/FinBio 
+
+
+3) Three files are required to run a model -
+   a) full_M.rds - the data file containing all EBV and environmental data. Each list component is an EBV (in column 2), and a series of environmental features.  
+   b) The model file for a specific EBV * country combination, E.g. fit_model_madagascar_FD.R , is a model to run out CV exercise for functional dispersion (FD) metrics in madagascar.
+   c) The batch file for a specific EBV * country combination - submit_model_madagascar_FD.sh. 
 
 
 
