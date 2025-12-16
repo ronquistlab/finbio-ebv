@@ -24,9 +24,9 @@ for(i in loc_list){
         
       library(tidyverse)
       library(xgboost)
-        
+      set.seed(127)  
       # load feature & target matrices --------------------------------------------------------------
-      ft_M <- readRDS('full_M.rds')${loc_var}${tar_var} |> drop_na() 
+      ft_M <- readRDS('../../../data/tidydata/full_M.rds')${loc_var}${tar_var} |> drop_na() 
       
       ### Model fitting code ###  
       {model_script}
@@ -34,7 +34,7 @@ for(i in loc_list){
       
       # save ----------------------------------------------------------------------------------------
         
-       saveRDS(saveList , 'results/results_{loc_var}_{tar_var}.rds')
+       saveRDS(saveList , '../../../results/results_{loc_var}_{tar_var}.rds')
         
       ")
   # Save script
