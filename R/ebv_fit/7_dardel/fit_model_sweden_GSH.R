@@ -2,23 +2,29 @@
   
 library(tidyverse)
 library(xgboost)
-  
+set.seed(127)  
 # load feature & target matrices --------------------------------------------------------------
-ft_M <- readRDS('full_M.rds')$sweden$GSH |> drop_na() 
+ft_M <- readRDS('../../../data/tidydata/full_M.rds')$sweden$GSH |> drop_na() 
 
 ### Model fitting code ###  
  # data set up ---------------------------------------------------------------------------------
-drop_cols <- c(colnames(ft_M)[2] , 'trap_ID' , 'week_year' , 'sample_time')
-X      <- ft_M |> dplyr::select(-all_of(drop_cols)) |> as.matrix()
-y      <- ft_M[,2]
-dtrain <- xgb.DMatrix(data = X , label = y , base_margin = log(ft_M$sample_time)) 
+
+# Set up X matrix, response family, & offsets
+
+drop_cols <- c(colnames(ft_M)[2] , 'trap_ID' , 'week_year')
+X         <- ft_M |> dplyr::select(-all_of(drop_cols)) |> as.matrix()
+y         <- ft_M[,2]
+dtrain    <- xgb.DMatrix(data = X , label = y) 
+
+obj_response <-ifelse(colnames(ft_M)[2] == 'nOTU' , "count:poisson", "reg:squarederror")
+ 
 
 
 # hyper parameter tuning ----------------------------------------------------------------------
 cat("Tuning learning rate\n")
 
 # Grid search for hyper-parameter tuning for eta first
-eta_grid <- expand.grid(eta     = seq(0.01,0.3,l=10) , nrounds = c(100,300,500,1000))
+eta_grid <- expand.grid(eta     = seq(0.01,0.3,l=20) , nrounds = c(300,500,1000,1500,2000))
 
 # ---- setup
 cv_resList <- vector(mode = 'list' , length = nrow(eta_grid)) # List to store
@@ -27,8 +33,11 @@ cv_resList <- vector(mode = 'list' , length = nrow(eta_grid)) # List to store
 # ----
 for (i in 1:nrow(eta_grid)) {{
   # Make a new list of parameters for each combination in our grid search
+
+  #cat(paste0("Running iteration " , i , " of " , nrow(eta_grid), "\n"))
+
   params <- list(
-    objective         = 'count:poisson',
+   objective         = obj_response,
     eta               = eta_grid$eta[i])
   
   # CV across options  
@@ -55,21 +64,24 @@ opt_eta       <- eta_grid[opt_eta_ind,]
 cat("Tuning remaining hyperparameters\n")
 
 hypar_grid <- expand.grid(
-  max_depth        = c(3:8),
-  min_child_weight = c(1,2,3,4),
+  max_depth        = c(3,5,7,9,11),
+  min_child_weight = c(1,3,5),
   eta              = opt_eta$eta,
   nrounds          = opt_eta$nrounds,
-  colsample_bytree = c(0.25,0.35,0.5, 0.75),
-  lambda           = c(0.1, 0.5, 0.8, 1.0),         # L2 regularization (Ridge regression)
-  alpha            = c(0.1, 0.5, 0.8, 1.0)          # L1 regularization (Lasso regression)
+  subsample        = c(0.8 , 1.0),
+  colsample_bytree = c(0.35,0.5, 0.75),
+  lambda           = c(0.5, 1.5, 3.5),         # L2 regularization (Ridge regression)
+  alpha            = c(0.5, 1.5, 3.5)          # L1 regularization (Lasso regression)
 )
 
 # ---- Loop over options 
+
 cv_resList <- vector(mode = 'list' , length = nrow(hypar_grid)) # List to store
 for (i in 1:nrow(hypar_grid)) {{
   # Make a new list of parameters for each combination in our grid search
+  #cat(paste0("Running iteration " , i ," of ", nrow(hypar_grid), "\n"))
   params <- list(
-    objective         = 'count:poisson',
+   objective         = obj_response,
     max_depth         = hypar_grid$max_depth[i],
     eta               = hypar_grid$eta[i],
     nrounds           = hypar_grid$nrounds[i],
@@ -95,10 +107,11 @@ hypar_fit <- lapply(1:length(cv_resList) , function(x) cv_resList[[x]]$evaluatio
 opt_h_ind <- as.numeric(hypar_fit[which.min(hypar_fit$test_rmse_mean),]$hypar_comb)
 
 opt_hypars <- list(
-  objective         = 'count:poisson',
+ objective         = obj_response,
   max_depth         = hypar_grid$max_depth[opt_h_ind],
   eta               = hypar_grid$eta[opt_h_ind],
   nrounds           = hypar_grid$nrounds[opt_h_ind],
+  subsample         = hypar_grid$subsample[opt_h_ind],
   colsample_bytree  = hypar_grid$colsample_bytree[opt_h_ind],
   lambda            = hypar_grid$lambda[opt_h_ind],
   alpha             = hypar_grid$alpha[opt_h_ind]
@@ -112,7 +125,7 @@ tmod_kfold <- xgb.cv(
   data                  = dtrain,
   nrounds               = 5e3,
   nfold                 = 5,
-  early_stopping_rounds = 20,
+  early_stopping_rounds = 10,
   metrics               = list('rmse','mae'), 
   tree_method = 'hist',
   prediction=TRUE,
@@ -131,7 +144,7 @@ tmod_strat <- xgb.cv(
   data                  = dtrain,
   nrounds               = 5e3,
   folds                 = strat_folds,
-  early_stopping_rounds = 20,
+  early_stopping_rounds = 10,
   metrics               = list('rmse','mae'), 
   tree_method = 'hist',
   prediction=TRUE,
@@ -150,7 +163,7 @@ tmod_loso <- xgb.cv(
   data                  = dtrain,
   nrounds               = 5e3,
   folds                 = loo_folds,
-  early_stopping_rounds = 20,
+  early_stopping_rounds = 10,
   metrics               = list('rmse','mae'), 
   tree_method = 'hist',
   prediction=TRUE,
@@ -162,7 +175,7 @@ tmod_fit <- xgboost(
   params                = opt_hypars,
   data                  = dtrain,
   nrounds               = 5e3,
-  early_stopping_rounds = 20,
+  early_stopping_rounds = 10,
   tree_method = 'hist',
   verbose=FALSE)
   
@@ -179,5 +192,5 @@ tmod_fit <- xgboost(
 
 # save ----------------------------------------------------------------------------------------
   
- saveRDS(saveList , 'results/results_sweden_GSH.rds')
+ saveRDS(saveList , '../../../results/results_sweden_GSH.rds')
   
