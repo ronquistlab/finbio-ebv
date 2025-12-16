@@ -26,7 +26,7 @@ for(i in seq_along(resList)){
                  mutate(fold = as.character(fold))
   
   
-  outList[[i]] <- bind_rows(list("K-fold"=loss_kfold,"LOSO"=loss_loso , "Stratified" = loss_strat),.id="cv_type") 
+  outList[[i]] <- bind_rows(list("K-fold"=loss_kfold,"New site"=loss_loso , "Within site" = loss_strat),.id="cv_type") 
   
 }
 
@@ -37,10 +37,14 @@ loss_df_all <- bind_rows(outList,.id="model_fit") |>
                      ebv = str_extract(model_fit , "(?<=_)[^_.]+(?=\\.)")) |> 
               dplyr::select(-model_fit) |> 
               filter(cv_type != "K-fold") |> 
-              mutate(cv_type = fct_relevel(cv_type, "Stratified" , "LOSO"))
+              mutate(cv_type = fct_relevel(cv_type, "Within site" , "New site"))
 
   
+loss_df_all$country <- factor(loss_df_all$country ,
+                            levels = c("sweden","madagascar"),
+                            labels = c("Sweden","Madagascar"))
 
+loss_df_all$ebv <- factor(loss_df_all$ebv , levels = c("SR","LCBD","FD","FE","GSH"))
 
 loss_sum <- loss_df_all |> 
   pivot_longer(!matches("cv|fold|country|ebv")  , names_to = "metric" , values_to = "value") |> 
@@ -53,69 +57,46 @@ loss_sum <- loss_df_all |>
             .by=c("country","ebv","metric","cv_type")) |> 
       filter(metric == "MAE")
 
+
 # plot ----------------------------------------------------------------------------------------
 
 
 loss_tmp <- loss_df_all |> 
+            filter(ebv != "PD") %>% 
             pivot_longer(!matches("cv|fold|country|ebv")  , names_to = "metric" , values_to = "value") |> 
-            filter( country == "sweden" , metric=="MAE") 
+            filter( metric=="MAE") 
             
 
 loss_tmp_sum <- loss_sum |> 
-                filter( country == "sweden") |> 
-                  mutate(pc_error_change = ((first(mean_value) - last(mean_value)) / last(mean_value)) * 100,.by=c("ebv" ))
+  filter(ebv != "PD") %>% 
+  
+                  mutate(pc_error_change = ((first(mean_value) - last(mean_value)) / last(mean_value)) * 100,.by=c("ebv" ,"country" ))
 
 
 ann_dat <- loss_tmp_sum |>
-            dplyr::select(ebv,cv_type ,pc_error_change,mean_value) |> 
-            filter(cv_type == "LOSO")
+  filter(ebv != "PD") %>% 
+  
+            dplyr::select(ebv,cv_type ,pc_error_change,mean_value,country) |> 
+            filter(cv_type == "New site")
 
 
 
 p1 <- loss_tmp |> 
   ggplot()+
-  geom_jitter(aes(cv_type , value),width = 0.05 , alpha = .3,size=5,colour="grey")+
+  #geom_jitter(aes(cv_type , value),width = 0.05 , alpha = .3,size=5,colour="grey")+
   geom_errorbar(data=loss_tmp_sum  , aes(x = cv_type, ymin = qi_80_lower , ymax = qi_80_upper ),width=0 ,size=4, colour="black")+
   geom_errorbar(data=loss_tmp_sum  , aes(x = cv_type, ymin = qi_50_lower , ymax = qi_50_upper ),width=0 ,size=7, colour="darkred")+
-  geom_line(data=loss_tmp_sum,aes(cv_type , mean_value,group=1),lty=2 , size=3)+
+  geom_line(data=loss_tmp_sum,aes(cv_type , mean_value,group=1),lty=3 , size=2)+
   geom_point(data=loss_tmp_sum , aes(cv_type, mean_value),size=12)+
   geom_point(data=loss_tmp_sum , aes(cv_type, mean_value),size=8, colour="white")+
   theme_linedraw(base_size = 40)+
   theme(axis.text.x = element_text(angle = 90))+
   geom_text(data=ann_dat , aes(x=2 , y = mean_value , label = round(pc_error_change)),size=10, fontface="bold" , hjust = -1)+
-  facet_grid2(metric~ebv,scales="free_y" , independent = "y")+
+  facet_grid(ebv~country,scales="free_y")+
   labs(x = "CV type" , y = "Error")
 
-# Madagascar
-loss_tmp <- loss_df_all |> 
-  pivot_longer(!matches("cv|fold|country|ebv")  , names_to = "metric" , values_to = "value") |> 
-  filter(country == "madagascar" , metric == "MAE") 
-
-loss_tmp_sum <- loss_sum |>
-                filter(country == "madagascar") |> 
-                mutate(pc_error_change = ((first(mean_value) - last(mean_value)) / last(mean_value)) * 100,.by=c("ebv" ))
-      
-ann_dat <- loss_tmp_sum |>
-          dplyr::select(ebv,cv_type ,pc_error_change,mean_value) |> 
-          filter(cv_type == "LOSO")
-
-p2 <- loss_tmp |> 
-  ggplot()+
-  geom_jitter(aes(cv_type , value),width = 0.05 , alpha = .3,size=5,colour="grey")+
-  geom_errorbar(data=loss_tmp_sum  , aes(x = cv_type, ymin = qi_80_lower , ymax = qi_80_upper ),width=0 ,size=4, colour="black")+
-  geom_errorbar(data=loss_tmp_sum  , aes(x = cv_type, ymin = qi_50_lower , ymax = qi_50_upper ),width=0 ,size=7, colour="darkred")+
-  geom_line(data=loss_tmp_sum,aes(cv_type , mean_value,group=1),lty=2 , size=3)+
-  geom_point(data=loss_tmp_sum , aes(cv_type, mean_value),size=12)+
-  geom_point(data=loss_tmp_sum , aes(cv_type, mean_value),size=8, colour="white")+
-  geom_text(data=ann_dat , aes(x=2 , y = mean_value , label = round(pc_error_change)),size=10,fontface="bold" , hjust = -1)+
-  theme_linedraw(base_size = 40)+
-  theme(axis.text.x = element_text(angle = 90))+
-  facet_grid2(metric~ebv,scales="free_y" , independent = "y")+
-  labs(x = "CV type" , y = "Error")
-
-
-tiff("plots/prelim_results" , width = 2500,height=1800,compression = "lzw")
-p1 / p2 + plot_annotation(tag_levels = 'A')
+tiff("plots/prelim_results" , width = 1200,height=1800,compression = "lzw")
+p1 
 dev.off()
 
 browseURL("plots/prelim_results")
