@@ -12,6 +12,9 @@ library(data.table)
 
 # ---------------------------------------------------------------------------------------------
 
+# Documentation and data for copernicus land cover data found at:
+#  https://doi.org/10.2909/c6377c6e-76cc-4d03-8330-628a03693042
+# https://land.copernicus.eu/global/sites/cgls.vito.be/files/products/CGLOPS1_PUM_LC100m-V3_I3.4.pdf
 
 IBA_locs <- fread("data/IBA_data/sites_metadata_mg.tsv") |>
                 dplyr::select(x=longitude_WGS84 , y=latitude_WGS84 ,trap_id=trapID)
@@ -320,7 +323,7 @@ saveRDS(saveList  , "tidy_data/fractional_cover/madagascar_copernicus_fractional
 
 
 
-# mess  -------------------------------------------------------------------
+# checks  -------------------------------------------------------------------
 
 # 
 # par(mfrow=c(1,1))
@@ -350,6 +353,4 @@ saveRDS(saveList  , "tidy_data/fractional_cover/madagascar_copernicus_fractional
 #           dplyr::select(type = 1 , x , y)
 # 
 # 
-# # join type and cover
-# 
-# 
+

@@ -11,6 +11,9 @@ library(terra)
 library(data.table)
 
 # ---------------------------------------------------------------------------------------------
+# Documentation and data for copernicus land cover data found at:
+#  https://doi.org/10.2909/c6377c6e-76cc-4d03-8330-628a03693042
+# https://land.copernicus.eu/global/sites/cgls.vito.be/files/products/CGLOPS1_PUM_LC100m-V3_I3.4.pdf
 
 
 IBA_locs <-  read_delim("data/IBA_data/sites_metadata_se.tsv" , 
