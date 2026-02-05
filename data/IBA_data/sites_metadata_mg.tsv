@@ -1,0 +1,51 @@
+siteID	trapID	latitude_WGS84	longitude_WGS84	trap_habitat	malaise_trap_type	parkID	provinceID	trap_orientation_degrees_S
+1	TW51Z9	-12.278013	49.381504	Dry_Forest	Single_trap	Paysage Harmonieux ProtŽgŽ d'Oronjia	ANTSIRANANA	122
+2	TNKTYG	-12.514783	49.181247	Rainforest	Multitrap	Parc National de Montagne d'Ambre	ANTSIRANANA	300
+2	TAVVN5	-12.515596	49.180805	Rainforest	Multitrap	Parc National de Montagne d'Ambre	ANTSIRANANA	330
+2	TUAPDE	-12.517164	49.179873	Rainforest	Multitrap	Parc National de Montagne d'Ambre	ANTSIRANANA	20
+3	THI5PX	-12.682717	49.545424	Dry_Forest	Single_trap	RŽserve SpŽciale d'Analamerana	ANTSIRANANA	100
+4	TRKQU5	-12.96002	49.120911	Dry_Forest	Single_trap	RŽserve SpŽciale d'Ankarana	ANTSIRANANA	180
+5	TK1MIJ	-13.14696	49.70374	Dry_Forest	Single_trap	Paysage Harmonieux ProtŽgŽ de Loky Manambato	ANTSIRANANA	90
+6	TG6SK4	-13.40849	48.30587	Rainforest	Single_trap	Parc National de Lokobe	ANTSIRANANA	310
+7	TRA8W1	-14.43606	49.75736	Rainforest	Multitrap	Parc National de Marojejy	ANTSIRANANA	70
+7	TAHDZD	-14.437	49.74282	Rainforest	Multitrap	Parc National de Marojejy	ANTSIRANANA	80
+7	TXS3QU	-14.44021	49.77818	Rainforest	Multitrap	Parc National de Marojejy	ANTSIRANANA	250
+7	TRJZGH	-14.44448	49.73728	Rainforest	Multitrap	Parc National de Marojejy	ANTSIRANANA	200
+8	T9VS8I	-15.67664	49.95653	Rainforest	Multitrap	Parc National de Masoala	TOAMASINA	12
+8	TNQVM4	-15.67889	49.95685	Rainforest	Multitrap	Parc National de Masoala	TOAMASINA	22
+8	TQKQRH	-15.68117	49.9577	Rainforest	Multitrap	Parc National de Masoala	TOAMASINA	200
+9	TR4LDL	-15.97018	45.71465	Dry_Forest	Single_trap	Paysage Harmonieux du Complexe Zones Humides Mahavavy Kinkony	MAHAJANGA	208
+10	TN1QSL	-16.06344	45.26049	Dry_Forest	Single_trap	Parc National de la Baie de Baly	MAHAJANGA	130
+11	TPQKYN	-16.28466	48.81669	Rainforest	Single_trap	Parc National de Marotandrano	MAHAJANGA	50
+12	TRGIDB	-16.31439	49.79369	Rainforest	Single_trap	Parc National de Mananara-Nord	TOAMASINA	140
+13	TUH8A4	-16.32425	46.82299	Dry_Forest	Multitrap	Parc National d'Ankarafantsika	MAHAJANGA	290
+13	TQCQRI	-16.32714	46.82259	Dry_Forest	Multitrap	Parc National d'Ankarafantsika	MAHAJANGA	220
+13	TFWNLD	-16.32886	46.82082	Dry_Forest	Multitrap	Parc National d'Ankarafantsika	MAHAJANGA	357
+14	TKRH5P	-16.46848	45.41309	Dry_Forest	Single_trap	Parc National de Namoroka	MAHAJANGA	43
+15	TEE8KA	-17.70517	49.45715	Rainforest	Single_trap	RŽserve de Ressources Naturelles d'Analalava	TOAMASINA	221
+16	TZJWN3	-17.9201	49.20044	Rainforest	Single_trap	RŽserve Naturelle IntŽgrale Betampona	TOAMASINA	291
+17	TPSMAA	-18.196437	47.286287	Montane_Rainforest	Single_trap	RŽserve SpŽciale d'Ambohitantely	ANTANANARIVO	141
+18	TDY8SA	-18.41335	47.94285	Montane_Rainforest	Single_trap	Paysage Harmonieux ProtŽgŽ du Complexe Anjozorobe Angavo	ANTANANARIVO	110
+19	TEGSKQ	-18.86682	48.29323	Rainforest	Single_trap	Fort Concession Minire Ambatovy	TOAMASINA	25
+20	TEYXBT	-18.96439	48.45811	Rainforest	Multitrap	RŽserve de Ressources Naturelles de Maromizaha	TOAMASINA	161
+20	TDKTHY	-18.96534	48.45539	Rainforest	Multitrap	RŽserve de Ressources Naturelles de Maromizaha	TOAMASINA	16
+20	TTFJBN	-18.96579	48.46074	Rainforest	Multitrap	RŽserve de Ressources Naturelles de Maromizaha	TOAMASINA	305
+21	TK4SS2	-19.14032	44.81435	Dry_Forest	Single_trap	Parc National de Tsingy de Bemaraha	MAHAJANGA	105
+22	TGJ4FW	-20.06286	44.65663	Dry_Forest	Multitrap	Concession Forestire de Kirindy (CNFEREF)	TOLIARA	308
+22	TG1QMA	-20.06509	44.65473	Dry_Forest	Multitrap	Concession Forestire de Kirindy (CNFEREF)	TOLIARA	130
+22	TP2FUA	-20.06763	44.65485	Dry_Forest	Multitrap	Concession Forestire de Kirindy (CNFEREF)	TOLIARA	320
+23	THYGHQ	-20.7949	44.16618	Dry_Forest	Single_trap	Parc National de Kirindy Mite	TOLIARA	67
+24	TB43DA	-21.258128	47.422347	Rainforest	Single_trap	Parc National de Ranomafana	FIANARANTSOA	135
+25	T4ZF4M	-22.53959	45.37872	Dry_Forest	Single_trap	Parc National de l'Isalo	FIANARANTSOA	285
+26	T6UDMB	-22.82777778	43.51916667	Dry_Forest	Single_trap	Parc National de Mikea	TOLIARA	123
+27	TIYMCS	-22.88694444	44.69277778	Dry_Forest	Single_trap	Parc National de Zombitse-Vohibasia	TOLIARA	340
+28	THGFVB	-23.18722222	47.71861111	Rainforest	Single_trap	RŽserve de Ressources Naturelles d'Agnalazaha	FIANARANTSOA	250
+29	TYBVPP	-23.655035	44.629599	Dry_Forest	Single_trap	RŽserve SpŽciale Bezˆ-Mahafaly	TOLIARA	180
+30	TUP4R5	-24.02303	43.7859	Dry_Forest	Multitrap	Parc National de Tsimanampesotse	TOLIARA	89
+30	TE8SYJ	-24.02532	43.73899	Dry_Forest	Multitrap	Parc National de Tsimanampesotse	TOLIARA	96
+30	T3JY78	-24.02663	43.740925	Dry_Forest	Multitrap	Parc National de Tsimanampesotse	TOLIARA	52
+31	TFBCWJ	-24.58194444	47.135	Rainforest	Multitrap	RŽserve de Ressources Naturelles de la Fort Naturelle de Tsitongambarika	TOLIARA	178
+31	TKDVTA	-24.5825	47.15027778	Rainforest	Multitrap	RŽserve de Ressources Naturelles de la Fort Naturelle de Tsitongambarika	TOLIARA	56
+31	TULADB	-24.585	47.13583333	Rainforest	Multitrap	RŽserve de Ressources Naturelles de la Fort Naturelle de Tsitongambarika	TOLIARA	183
+32	TGRG5T	-24.76388889	46.86111111	Rainforest	Single_trap	Parc National  d'Andohahela	TOLIARA	129
+33	TIPGKX	-25.540964	45.137877	Dry_Forest	Single_trap	RŽserve SpŽciale Cap de Sainte Marie	TOLIARA	346
