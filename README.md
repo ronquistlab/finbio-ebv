@@ -48,6 +48,9 @@ Miscellaneous files useful for the FinBio project
 ## Results
 Results files from model fits and predictions
 
+## Corporate report analysis
+Excel document with the full list of reports reviewed for the corporate report analysis in the study.
+
 ## Plots
 Plotted figures
 
