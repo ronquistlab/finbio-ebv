@@ -231,3 +231,72 @@ p2 <- ggplot(df_loso, aes(x = x,
 
 
 p1 + p2
+
+# extra figure for WBF talk -----------------------------------------------
+
+resDat <- resList[[2]]
+list_name <- resFiles[[2]]
+
+get_comp <- function(resDat,list_name){
+  resdf <- data.frame(
+    obs         = resDat$data$full[,2],
+    preds_strat = resDat$model_fits$strat$pred,
+    preds_loso  = resDat$model_fits$loso$pred,
+    ebv         = colnames(resDat$data$full)[2],
+    country     = str_extract(list_name,"sweden|madagascar"),
+    trap_id     = resDat$data$full[,1])}
+
+
+comp_df <- mapply(get_comp , resList , resFiles , SIMPLIFY = FALSE) %>% 
+  bind_rows()
+
+
+comp_df$ebv <- factor(comp_df$ebv , 
+                                  levels = c("nOTU","lcbd" , "FDis" , "FEve" , "mean_shn"),
+                                  labels = c("SR" , "LCBD" , "FD","FE","GSH"))
+
+comp_df %>% 
+  filter(country == "madagascar" , 
+         !is.na(ebv)) %>% 
+  summarise(
+    across(
+      obs:preds_loso,
+      mean,
+      .names = "mean_{.col}"), .by = c("trap_id","ebv")) %>% 
+  mutate(across(
+    mean_obs:mean_preds_loso,
+    rank,
+    .names = "rnk_{.col}"
+  ), .by = "ebv") %>% 
+  filter(trap_id %in% unique(trap_id)[1:10]) %>% 
+  ggplot()+
+  geom_tile(aes(x = trap_id , y = ebv , fill = rnk_mean_obs) , colour = "white")+
+  scale_fill_viridis_c(option = "rocket" , direction = -1)+
+  theme_linedraw()+
+  theme(axis.text.x  = element_text(angle=90) , legend.position = 'bottom')+
+  coord_flip()+
+  labs(x = "EBV" , y = "Site ID" , fill = "Rank")
+  
+
+comp_df %>% 
+  filter(country == "madagascar" , 
+         !is.na(ebv)) %>% 
+  summarise(
+    across(
+      obs:preds_loso,
+      mean,
+      .names = "mean_{.col}"), .by = c("trap_id","ebv")) %>% 
+  mutate(across(
+    mean_obs:mean_preds_loso,
+    ~ntile(.x,4),
+    .names = "rnk_{.col}"
+  ), .by = "ebv") %>% 
+  filter(trap_id %in% unique(trap_id)[1:10]) %>% 
+  ggplot()+
+  geom_tile(aes(x = trap_id , y = ebv , fill = rnk_mean_obs) , colour = "white")+
+  scale_fill_viridis_c(option = "rocket" , direction = -1)+
+  theme_linedraw()+
+  theme(axis.text.x  = element_text(angle=90) , legend.position = 'bottom')+
+  coord_flip()+
+  labs(x = "EBV" , y = "Site ID" , fill = "Priority tier")
+
