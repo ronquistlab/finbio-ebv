@@ -254,7 +254,7 @@ comp_df <- mapply(get_comp , resList , resFiles , SIMPLIFY = FALSE) %>%
 comp_df$ebv <- factor(comp_df$ebv , 
                                   levels = c("nOTU","lcbd" , "FDis" , "FEve" , "mean_shn"),
                                   labels = c("SR" , "LCBD" , "FD","FE","GSH"))
-
+# Observed raw values
 comp_df %>% 
   filter(country == "madagascar" , 
          !is.na(ebv)) %>% 
@@ -275,9 +275,9 @@ comp_df %>%
   theme_linedraw()+
   theme(axis.text.x  = element_text(angle=90) , legend.position = 'bottom')+
   coord_flip()+
-  labs(x = "EBV" , y = "Site ID" , fill = "Rank")
+  labs(x = "Site ID" , y = "EBV" , fill = "Rank")
   
-
+# Observed priority tier
 comp_df %>% 
   filter(country == "madagascar" , 
          !is.na(ebv)) %>% 
@@ -298,5 +298,29 @@ comp_df %>%
   theme_linedraw()+
   theme(axis.text.x  = element_text(angle=90) , legend.position = 'bottom')+
   coord_flip()+
-  labs(x = "EBV" , y = "Site ID" , fill = "Priority tier")
+  labs(x = "Site ID" , y = "EBV" , fill = "Priority tier")
+
+# Predicted priority tier
+comp_df %>% 
+  filter(country == "madagascar" , 
+         !is.na(ebv)) %>% 
+  summarise(
+    across(
+      obs:preds_loso,
+      mean,
+      .names = "mean_{.col}"), .by = c("trap_id","ebv")) %>% 
+  mutate(across(
+    mean_obs:mean_preds_loso,
+    ~ntile(.x,4),
+    .names = "rnk_{.col}"
+  ), .by = "ebv") %>% 
+  filter(trap_id %in% unique(trap_id)[1:10]) %>% 
+  ggplot()+
+  geom_tile(aes(x = trap_id , y = ebv , fill = rnk_mean_preds_loso) , colour = "white")+
+  scale_fill_viridis_c(option = "rocket" , direction = -1)+
+  theme_linedraw()+
+  theme(axis.text.x  = element_text(angle=90) , legend.position = 'bottom')+
+  coord_flip()+
+  labs(x = "Site ID" , y = "EBV" , fill = "Priority tier")
+
 

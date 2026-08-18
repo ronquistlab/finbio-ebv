@@ -5,13 +5,13 @@ library(data.table)
 # import data ---------------------------------------------------------------------------------
 
 # --------------- Spike in IDs 
-spike_ins_mg  <- fread("data/IBA_data/biological_spikes_taxonomy_mg.tsv")
-spike_ins_se  <- fread("data/IBA_data/biological_spikes_taxonomy_se.tsv")
+spike_ins_mg  <- fread("data/raw_data/IBA_data/biological_spikes_taxonomy_mg.tsv")
+spike_ins_se  <- fread("data/raw_data/IBA_data/biological_spikes_taxonomy_se.tsv")
 
 
 
 #--------------- Cluster taxonomies
-clusters_se <- fread("data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_se.tsv") |>
+clusters_se <- fread("data/raw_data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_se.tsv") |>
                 _[representative == 1 ,] |> 
                 _[Phylum == "Arthropoda" ,] |> 
                 _[!str_detect(Family , "unclassified*|_X*"),] |> 
@@ -19,7 +19,7 @@ clusters_se <- fread("data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_se.t
                 _[!str_detect(Species , paste(spike_ins_se$Species,collapse="|")),] 
 
 
-clusters_mg <- fread("data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_mg.tsv") |>
+clusters_mg <- fread("data/raw_data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_mg.tsv") |>
                 _[representative == 1 ,] |> 
                 _[Phylum == "Arthropoda" ,] |> 
                 _[!str_detect(Order , "_X*"),] |> 
@@ -27,18 +27,18 @@ clusters_mg <- fread("data/IBA_data/cleaned_noise_filtered_cluster_taxonomy_mg.t
 
 
 # ---------------- CLuster counts
-counts_se <- fread("data/IBA_data/cleaned_noise_filtered_cluster_counts_se.tsv")
-counts_mg <- fread("data/IBA_data/cleaned_noise_filtered_cluster_counts_mg.tsv")
+counts_se <- fread("data/raw_data/IBA_data/cleaned_noise_filtered_cluster_counts_se.tsv")
+counts_mg <- fread("data/raw_data/IBA_data/cleaned_noise_filtered_cluster_counts_mg.tsv")
 
 
 
 # --------------- meta_data
-se_seq_meta    <- fread("data/IBA_data/co1_sequencing_metadata_se.tsv") # Sequencing
-mg_seq_meta    <- fread("data/IBA_data/co1_sequencing_metadata_mg.tsv")
-se_sample_meta <- fread("data/IBA_data/samples_metadata_malaise_se.tsv")
-mg_sample_meta <- fread("data/IBA_data/samples_metadata_malaise_mg.tsv")
-se_site_meta   <- read_delim("data/IBA_data/sites_metadata_se.tsv" , locale=locale(encoding="UTF-16LE"),delim = "\t")
-mg_site_meta   <- read_delim("data/IBA_data/sites_metadata_mg.tsv" , delim="\t")
+se_seq_meta    <- fread("data/raw_data/IBA_data/co1_sequencing_metadata_se.tsv") # Sequencing
+mg_seq_meta    <- fread("data/raw_data/IBA_data/co1_sequencing_metadata_mg.tsv")
+se_sample_meta <- fread("data/raw_data/IBA_data/samples_metadata_malaise_se.tsv")
+mg_sample_meta <- fread("data/raw_data/IBA_data/samples_metadata_malaise_mg.tsv")
+se_site_meta   <- read_delim("data/raw_data/IBA_data/sites_metadata_se.tsv" , locale=locale(encoding="UTF-16LE"),delim = "\t")
+mg_site_meta   <- read_delim("data/raw_data/IBA_data/sites_metadata_mg.tsv" , delim="\t")
 
 
 # join metadata - sweden
